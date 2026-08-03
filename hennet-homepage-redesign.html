@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>HENNET — Homepage Redesign Concept</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;1,8..60,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F3F6EF;
+    --paper-dim:#EAEFE3;
+    --ink:#152118;
+    --ink-soft:#3C4A40;
+    --forest:#1E5631;
+    --forest-deep:#123B21;
+    --leaf:#7CB342;
+    --marigold:#E38B29;
+    --marigold-deep:#C06E14;
+    --berry:#AD3A5C;
+    --sand:#EAE1C7;
+    --line:rgba(21,33,24,0.12);
+    --max:600px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Space Grotesk',sans-serif;
+    -webkit-font-smoothing:antialiased;
+    padding-bottom:64px; /* room for sticky mobile CTA bar */
+  }
+  img{max-width:100%;display:block;}
+  a{color:inherit;}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 20px;}
+  .eyebrow{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--forest);
+    display:flex;align-items:center;gap:8px;
+    margin:0 0 10px;
+  }
+  .eyebrow::before{content:'';width:7px;height:7px;background:var(--marigold);flex:none;}
+  h1,h2,h3{margin:0;line-height:1.05;font-weight:600;letter-spacing:-0.01em;}
+  p{line-height:1.55;color:var(--ink-soft);}
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:15px;
+    padding:14px 22px;border-radius:2px;border:none;cursor:pointer;
+    text-decoration:none;min-height:44px;
+  }
+  .btn-primary{background:var(--marigold);color:var(--forest-deep);}
+  .btn-primary:active{background:var(--marigold-deep);}
+  .btn-outline{background:transparent;color:var(--paper);border:1.5px solid rgba(255,255,255,0.55);}
+  .btn-ghost{background:transparent;color:var(--forest);border:1.5px solid var(--forest);}
+  section{padding:52px 0;border-top:1px solid var(--line);}
+  section:first-of-type{border-top:none;}
+
+  /* ===== HEADER ===== */
+  header{
+    position:sticky;top:0;z-index:50;
+    background:rgba(243,246,239,0.92);backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line);
+  }
+  .header-row{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:12px 20px;max-width:var(--max);margin:0 auto;
+  }
+  .brand{display:flex;align-items:center;gap:9px;font-weight:700;font-size:17px;color:var(--forest-deep);text-decoration:none;}
+  .brand .mark{width:30px;height:30px;flex:none;}
+  .header-actions{display:flex;align-items:center;gap:10px;}
+  .icon-btn{
+    width:40px;height:40px;border-radius:2px;border:1px solid var(--line);
+    background:none;display:flex;align-items:center;justify-content:center;cursor:pointer;
+  }
+  .join-mini{
+    font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;
+    background:var(--forest);color:var(--paper);padding:9px 14px;border-radius:2px;
+    text-decoration:none;letter-spacing:0.02em;
+  }
+
+  /* mobile drawer nav */
+  #nav-toggle{display:none;}
+  .mobile-nav{
+    max-height:0;overflow:hidden;background:var(--paper);
+    transition:max-height 0.32s ease;border-top:1px solid transparent;
+  }
+  #nav-toggle:checked ~ .mobile-nav{max-height:520px;border-top:1px solid var(--line);}
+  .mobile-nav ul{list-style:none;margin:0;padding:6px 20px 18px;}
+  .mobile-nav li{border-bottom:1px solid var(--line);}
+  .mobile-nav a{display:block;padding:14px 2px;font-size:15px;font-weight:500;text-decoration:none;}
+  .mobile-nav .sub{padding-left:14px;}
+  .mobile-nav .sub a{font-size:13.5px;color:var(--ink-soft);padding:10px 2px;}
+  .hamburger{position:relative;width:18px;height:12px;}
+  .hamburger span{position:absolute;left:0;right:0;height:2px;background:var(--ink);transition:0.25s;}
+  .hamburger span:nth-child(1){top:0;}
+  .hamburger span:nth-child(2){top:5px;}
+  .hamburger span:nth-child(3){top:10px;}
+  #nav-toggle:checked ~ .header-row .hamburger span:nth-child(1){transform:translateY(5px) rotate(45deg);}
+  #nav-toggle:checked ~ .header-row .hamburger span:nth-child(2){opacity:0;}
+  #nav-toggle:checked ~ .header-row .hamburger span:nth-child(3){transform:translateY(-5px) rotate(-45deg);}
+
+  /* ===== HERO ===== */
+  .hero{
+    position:relative;padding:0;border-top:none;
+    background:linear-gradient(180deg, var(--forest-deep) 0%, var(--forest) 100%);
+    color:var(--paper);overflow:hidden;
+  }
+  .hero-photo{
+    position:relative;height:340px;
+    background:url('https://hennet.or.ke/wp-content/uploads/2025/06/HENNET-11-scaled.jpg') center/cover;
+  }
+  .hero-photo::after{
+    content:'';position:absolute;inset:0;
+    background:linear-gradient(180deg, rgba(18,59,33,0.15) 0%, rgba(18,59,33,0.96) 92%);
+  }
+  .hero-body{padding:0 20px 32px;margin-top:-46px;position:relative;z-index:2;}
+  .hero-eyebrow{
+    font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.14em;
+    text-transform:uppercase;color:var(--leaf);margin-bottom:12px;display:block;
+  }
+  .hero h1{font-size:34px;color:#fff;}
+  .hero h1 em{font-style:normal;color:var(--leaf);}
+  .hero p{color:rgba(255,255,255,0.82);font-size:15.5px;margin:14px 0 22px;max-width:46ch;}
+  .hero-ctas{display:flex;flex-direction:column;gap:10px;}
+  .hero-ctas .btn{width:100%;}
+
+  /* ===== TRUST STRIP ===== */
+  .trust{padding:20px 0;}
+  .trust-scroll{
+    display:flex;gap:10px;overflow-x:auto;padding:2px 20px 6px;margin:0 -20px;
+    scrollbar-width:none;
+  }
+  .trust-scroll::-webkit-scrollbar{display:none;}
+  .chip{
+    flex:none;font-family:'IBM Plex Mono',monospace;font-size:12px;
+    border:1px solid var(--line);border-radius:2px;padding:9px 13px;
+    background:#fff;white-space:nowrap;color:var(--ink-soft);
+  }
+  .chip b{color:var(--forest-deep);}
+
+  /* ===== IMPACT DASHBOARD ===== */
+  .stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  .stat-card{
+    background:#fff;border:1px solid var(--line);padding:20px 16px;border-radius:2px;
+  }
+  .stat-num{
+    font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:32px;color:var(--forest-deep);
+    display:block;
+  }
+  .stat-label{font-size:12.5px;color:var(--ink-soft);margin-top:4px;line-height:1.3;}
+
+  /* ===== SIGNATURE: REGIONAL REACH GRID ===== */
+  .reach-panel{background:var(--forest-deep);color:var(--paper);border-radius:2px;padding:24px 18px;}
+  .reach-panel h3{color:#fff;font-size:20px;margin-bottom:6px;}
+  .reach-panel p{color:rgba(255,255,255,0.72);font-size:13.5px;margin:0 0 18px;}
+  .node-grid{
+    display:grid;grid-template-columns:repeat(9,1fr);gap:5px;margin-bottom:20px;
+  }
+  .node{
+    aspect-ratio:1;background:rgba(255,255,255,0.14);border-radius:1px;
+    transition:background 0.5s ease, transform 0.4s ease;
+  }
+  .node.on{background:var(--leaf);}
+  .block-scroll{
+    display:flex;gap:8px;overflow-x:auto;margin:0 -18px;padding:0 18px;
+    scrollbar-width:none;
+  }
+  .block-scroll::-webkit-scrollbar{display:none;}
+  .block-chip{
+    flex:none;font-family:'IBM Plex Mono',monospace;font-size:11.5px;
+    border:1px solid rgba(255,255,255,0.28);padding:8px 12px;border-radius:20px;
+    background:none;color:rgba(255,255,255,0.85);cursor:pointer;
+  }
+  .block-chip.active{background:var(--leaf);border-color:var(--leaf);color:var(--forest-deep);font-weight:600;}
+
+  /* ===== STORY SPOTLIGHT ===== */
+  .story-card{
+    background:var(--sand);border-radius:2px;padding:22px 18px;position:relative;
+  }
+  .story-flag{
+    display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:10px;
+    letter-spacing:0.08em;text-transform:uppercase;background:var(--berry);color:#fff;
+    padding:4px 8px;margin-bottom:14px;
+  }
+  .story-card blockquote{
+    font-family:'Source Serif 4',serif;font-style:italic;font-size:19px;line-height:1.4;
+    margin:0 0 14px;color:var(--forest-deep);
+  }
+  .story-card cite{font-style:normal;font-size:13px;color:var(--ink-soft);display:block;}
+
+  /* ===== PILLARS ===== */
+  .pillar{display:flex;gap:14px;padding:18px 0;border-bottom:1px solid var(--line);}
+  .pillar:last-child{border-bottom:none;}
+  .pillar-icon{
+    flex:none;width:42px;height:42px;border-radius:2px;background:var(--paper-dim);
+    display:flex;align-items:center;justify-content:center;
+  }
+  .pillar h3{font-size:16.5px;margin-bottom:5px;}
+  .pillar p{font-size:14px;margin:0;}
+
+  /* ===== NEWS ===== */
+  .news-card{border:1px solid var(--line);background:#fff;margin-bottom:12px;border-radius:2px;overflow:hidden;}
+  .news-tag{
+    font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--forest);
+    text-transform:uppercase;letter-spacing:0.08em;padding:14px 16px 0;display:block;
+  }
+  .news-card h3{font-size:16px;padding:6px 16px 4px;}
+  .news-card p{font-size:13.5px;padding:0 16px 16px;margin:0;}
+  .sample-note{
+    font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--berry);
+    border:1px dashed var(--berry);padding:8px 10px;margin-top:10px;display:block;
+  }
+
+  /* ===== MEMBERSHIP CTA ===== */
+  .cta-band{background:var(--marigold);border-radius:2px;padding:26px 20px;text-align:left;}
+  .cta-band h2{font-size:23px;color:var(--forest-deep);margin-bottom:8px;}
+  .cta-band p{color:var(--forest-deep);opacity:0.85;font-size:14.5px;margin-bottom:18px;}
+  .cta-band .btn-primary{background:var(--forest-deep);color:#fff;}
+
+  /* ===== NEWSLETTER ===== */
+  .newsletter-form{display:flex;flex-direction:column;gap:10px;margin-top:14px;}
+  .newsletter-form input{
+    height:46px;border:1px solid var(--line);border-radius:2px;padding:0 14px;
+    font-family:'Space Grotesk',sans-serif;font-size:14px;background:#fff;
+  }
+
+  /* ===== FOOTER ===== */
+  footer{background:var(--forest-deep);color:rgba(255,255,255,0.85);padding:40px 0 26px;}
+  footer .wrap{max-width:var(--max);}
+  .foot-logo{width:120px;margin-bottom:14px;}
+  footer p{color:rgba(255,255,255,0.68);font-size:13.5px;}
+  footer h4{
+    font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.1em;
+    text-transform:uppercase;color:var(--leaf);margin:26px 0 10px;
+  }
+  .foot-links{list-style:none;margin:0;padding:0;}
+  .foot-links li{margin-bottom:9px;font-size:14px;}
+  .foot-links a{text-decoration:none;color:rgba(255,255,255,0.85);}
+  .foot-social{display:flex;gap:10px;margin-top:16px;}
+  .foot-social a{
+    width:36px;height:36px;border:1px solid rgba(255,255,255,0.25);border-radius:2px;
+    display:flex;align-items:center;justify-content:center;text-decoration:none;
+  }
+  .foot-bottom{
+    border-top:1px solid rgba(255,255,255,0.15);margin-top:28px;padding-top:16px;
+    font-size:12px;color:rgba(255,255,255,0.55);
+  }
+
+  /* ===== STICKY MOBILE CTA BAR ===== */
+  .sticky-cta{
+    position:fixed;left:0;right:0;bottom:0;z-index:60;
+    display:flex;background:#fff;border-top:1px solid var(--line);
+    box-shadow:0 -4px 14px rgba(21,33,24,0.08);
+  }
+  .sticky-cta a{
+    flex:1;display:flex;align-items:center;justify-content:center;gap:8px;
+    padding:13px 6px;font-size:13.5px;font-weight:600;text-decoration:none;
+  }
+  .sticky-cta .call{color:var(--forest-deep);}
+  .sticky-cta .join{background:var(--marigold);color:var(--forest-deep);}
+
+  /* reveal on scroll */
+  .reveal{opacity:0;transform:translateY(14px);transition:opacity 0.6s ease,transform 0.6s ease;}
+  .reveal.in{opacity:1;transform:translateY(0);}
+
+  @media (min-width:601px){
+    .hero h1{font-size:44px;}
+    .hero-ctas{flex-direction:row;}
+    .hero-ctas .btn{width:auto;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ HEADER ============ -->
+<header>
+  <input type="checkbox" id="nav-toggle">
+  <div class="header-row">
+    <a class="brand" href="#top">
+      <svg class="mark" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="15" stroke="#1E5631" stroke-width="2"/><path d="M9 17c2-6 6-9 12-9-1 5-3 9-9 12-3-1-3-2-3-3z" fill="#7CB342"/></svg>
+      HENNET
+    </a>
+    <div class="header-actions">
+      <a class="join-mini" href="#join">Join</a>
+      <label class="icon-btn" for="nav-toggle"><div class="hamburger"><span></span><span></span><span></span></div></label>
+    </div>
+  </div>
+  <nav class="mobile-nav">
+    <ul>
+      <li><a href="#">About Us</a>
+        <ul class="sub">
+          <li><a href="#">Our Story</a></li>
+          <li><a href="#">Board Members</a></li>
+          <li><a href="#">Theory of Change</a></li>
+        </ul>
+      </li>
+      <li><a href="#">Our Approach</a>
+        <ul class="sub">
+          <li><a href="#">Strategic Priorities</a></li>
+          <li><a href="#">Thematic Areas</a></li>
+        </ul>
+      </li>
+      <li><a href="#">Membership</a></li>
+      <li><a href="#">Media Centre</a></li>
+      <li><a href="#">Partner With Us</a></li>
+      <li><a href="tel:+254742088940">Call (+254) 0742 088 940</a></li>
+    </ul>
+  </nav>
+</header>
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="top">
+  <div class="hero-photo"></div>
+  <div class="hero-body">
+    <span class="hero-eyebrow">2023–2027 Strategic Plan</span>
+    <h1>One network.<br>47 counties.<br><em>One healthier Kenya.</em></h1>
+    <p>HENNET unites 120+ health NGOs into a single, coordinated voice — turning grassroots insight into national policy change since 2005.</p>
+    <div class="hero-ctas">
+      <a class="btn btn-primary" href="#join">Join the network</a>
+      <a class="btn btn-outline" href="#impact">See our impact</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TRUST STRIP ============ -->
+<section class="trust">
+  <div class="wrap">
+    <div class="trust-scroll">
+      <span class="chip"><b>Est. 2005</b> · 20 yrs of advocacy</span>
+      <span class="chip"><b>120+</b> member NGOs</span>
+      <span class="chip"><b>2025</b> Best NGO Partnership Award</span>
+      <span class="chip"><b>47/47</b> counties represented</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ IMPACT DASHBOARD ============ -->
+<section id="impact">
+  <div class="wrap">
+    <span class="eyebrow">Impact dashboard</span>
+    <h2 style="font-size:22px;margin-bottom:16px;">What the network has moved</h2>
+    <div class="stat-grid">
+      <div class="stat-card reveal"><span class="stat-num" data-count="47">0</span><span class="stat-label">Counties with active member programming</span></div>
+      <div class="stat-card reveal"><span class="stat-num" data-count="120">0</span><span class="stat-label">Member health NGOs coordinated</span></div>
+      <div class="stat-card reveal"><span class="stat-num" data-count="12">0</span><span class="stat-label">National policies shaped since 2023</span></div>
+      <div class="stat-card reveal"><span class="stat-num" data-count="80" data-suffix="%">0</span><span class="stat-label">Of members reporting increased impact</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SIGNATURE: REGIONAL REACH ============ -->
+<section>
+  <div class="wrap">
+    <span class="eyebrow">Regional reach</span>
+    <div class="reach-panel reveal">
+      <h3>8 regional blocks, working as one</h3>
+      <p>Tap a block to see its share of the 47-county network.</p>
+      <div class="node-grid" id="nodeGrid"></div>
+      <div class="block-scroll" id="blockScroll">
+        <button class="block-chip active" data-count="47">All blocks</button>
+        <button class="block-chip" data-count="6">Nairobi</button>
+        <button class="block-chip" data-count="7">Coast</button>
+        <button class="block-chip" data-count="5">North Eastern</button>
+        <button class="block-chip" data-count="8">Rift Valley North</button>
+        <button class="block-chip" data-count="6">Rift Valley South</button>
+        <button class="block-chip" data-count="5">Western</button>
+        <button class="block-chip" data-count="5">Nyanza</button>
+        <button class="block-chip" data-count="5">Eastern</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ STORY SPOTLIGHT ============ -->
+<section>
+  <div class="wrap">
+    <span class="eyebrow">Member story</span>
+    <div class="story-card reveal">
+      <span class="story-flag">Sample layout</span>
+      <blockquote>"Since joining HENNET's regional block, we stopped duplicating outreach with three other NGOs in our sub-county — and started sharing one immunization calendar."</blockquote>
+      <cite>— Placeholder quote, County Health Coordinator</cite>
+      <span class="sample-note">⚑ Replace with a verified quote and photo from an actual member organization before publishing — this slot is the audit's top recommendation: real beneficiary and member stories build more trust than institutional copy.</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PILLARS ============ -->
+<section>
+  <div class="wrap">
+    <span class="eyebrow">The HENNET difference</span>
+    <h2 style="font-size:22px;margin-bottom:6px;">Three pillars, one system</h2>
+    <div class="pillar reveal">
+      <div class="pillar-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 20V10l8-6 8 6v10" stroke="#1E5631" stroke-width="1.8"/><path d="M9 20v-6h6v6" stroke="#7CB342" stroke-width="1.8"/></svg></div>
+      <div><h3>Advocacy &amp; policy voice</h3><p>Research and tools that help members influence health policy from county to national level.</p></div>
+    </div>
+    <div class="pillar reveal">
+      <div class="pillar-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="6" cy="6" r="2.4" stroke="#1E5631" stroke-width="1.6"/><circle cx="18" cy="6" r="2.4" stroke="#1E5631" stroke-width="1.6"/><circle cx="12" cy="18" r="2.4" stroke="#1E5631" stroke-width="1.6"/><path d="M8 7.5L11 16M16 7.5L13 16M8.5 6H15.5" stroke="#7CB342" stroke-width="1.6"/></svg></div>
+      <div><h3>Coordination &amp; networking</h3><p>Eight regional blocks create shared platforms for joint programming and resource sharing.</p></div>
+    </div>
+    <div class="pillar reveal">
+      <div class="pillar-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 4h11l5 5v11H4z" stroke="#1E5631" stroke-width="1.6"/><path d="M8 12h8M8 16h5" stroke="#7CB342" stroke-width="1.6"/></svg></div>
+      <div><h3>Capacity &amp; sustainability</h3><p>Tailored learning pathways build members' operational readiness and crisis resilience.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ NEWS ============ -->
+<section>
+  <div class="wrap">
+    <span class="eyebrow">From the network</span>
+    <h2 style="font-size:22px;margin-bottom:16px;">Latest thinking</h2>
+    <div class="news-card reveal">
+      <span class="news-tag">Health financing</span>
+      <h3>What county-level data tells us about PHC funding gaps</h3>
+      <p>A sample post preview — swap in a real published article, dated and bylined.</p>
+    </div>
+    <div class="news-card reveal">
+      <span class="news-tag">Child health</span>
+      <h3>Inside the immunization coordination push in Rift Valley North</h3>
+      <p>A sample post preview — swap in a real published article, dated and bylined.</p>
+    </div>
+    <a class="btn btn-ghost" href="#" style="width:100%;">Read all updates</a>
+  </div>
+</section>
+
+<!-- ============ MEMBERSHIP CTA ============ -->
+<section id="join">
+  <div class="wrap">
+    <div class="cta-band reveal">
+      <h2>Run a health NGO in Kenya?</h2>
+      <p>Join 120+ organizations sharing tools, research, and one advocacy platform across all 47 counties.</p>
+      <a class="btn btn-primary" href="#">Start your application</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ NEWSLETTER ============ -->
+<section>
+  <div class="wrap">
+    <span class="eyebrow">Stay informed</span>
+    <h2 style="font-size:20px;">Get policy updates in your inbox</h2>
+    <p style="font-size:13.5px;">One email a month. No spam — ever.</p>
+    <form class="newsletter-form" onsubmit="return false;">
+      <input type="email" placeholder="you@organization.org" required>
+      <button class="btn btn-primary" type="submit">Subscribe</button>
+    </form>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="wrap">
+    <svg class="foot-logo" viewBox="0 0 32 32" fill="none" width="32"><circle cx="16" cy="16" r="15" stroke="#7CB342" stroke-width="2"/><path d="M9 17c2-6 6-9 12-9-1 5-3 9-9 12-3-1-3-2-3-3z" fill="#7CB342"/></svg>
+    <p>As a network, we promote civil society's roles and engagements to transform Kenya's health sector.</p>
+
+    <h4>Contact</h4>
+    <p>admin@hennet.or.ke<br>(+254) 0742 088 940<br>8th Floor Nachu Plaza, Upperhill, Kiambere Road, Nairobi</p>
+
+    <h4>Explore</h4>
+    <ul class="foot-links">
+      <li><a href="#">About Us</a></li>
+      <li><a href="#">Our Approach</a></li>
+      <li><a href="#">Membership</a></li>
+      <li><a href="#">Media Centre</a></li>
+      <li><a href="#">Partner With Us</a></li>
+    </ul>
+
+    <div class="foot-social">
+      <a href="#" aria-label="Facebook">f</a>
+      <a href="#" aria-label="X">x</a>
+      <a href="#" aria-label="LinkedIn">in</a>
+      <a href="#" aria-label="YouTube">yt</a>
+    </div>
+
+    <div class="foot-bottom">
+      © HENNET 2026. All rights reserved.
+    </div>
+  </div>
+</footer>
+
+<!-- ============ STICKY MOBILE CTA ============ -->
+<div class="sticky-cta">
+  <a class="call" href="tel:+254742088940">Call us</a>
+  <a class="join" href="#join">Join the network</a>
+</div>
+
+<script>
+  // Reveal on scroll
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  },{threshold:0.15});
+  revealEls.forEach(el=>io.observe(el));
+
+  // Count-up stats
+  const counters = document.querySelectorAll('.stat-num');
+  const countIO = new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){
+        const el = entry.target;
+        const target = parseInt(el.dataset.count,10);
+        const suffix = el.dataset.suffix || '+';
+        let cur = 0;
+        const step = Math.max(1, Math.round(target/30));
+        const tick = ()=>{
+          cur += step;
+          if(cur >= target){ el.textContent = target + suffix; return; }
+          el.textContent = cur + suffix;
+          requestAnimationFrame(tick);
+        };
+        tick();
+        countIO.unobserve(el);
+      }
+    });
+  },{threshold:0.4});
+  counters.forEach(el=>countIO.observe(el));
+
+  // Node grid (47 nodes representing counties)
+  const nodeGrid = document.getElementById('nodeGrid');
+  const TOTAL = 47;
+  for(let i=0;i<TOTAL;i++){
+    const d = document.createElement('div');
+    d.className = 'node';
+    nodeGrid.appendChild(d);
+  }
+  const nodes = nodeGrid.querySelectorAll('.node');
+  function litNodes(count){
+    nodes.forEach((n,i)=>{ n.classList.toggle('on', i < count); });
+  }
+  litNodes(TOTAL);
+
+  // Region block chips
+  const chips = document.querySelectorAll('.block-chip');
+  chips.forEach(chip=>{
+    chip.addEventListener('click', ()=>{
+      chips.forEach(c=>c.classList.remove('active'));
+      chip.classList.add('active');
+      litNodes(parseInt(chip.dataset.count,10));
+    });
+  });
+
+  // Close mobile nav after tapping a link
+  document.querySelectorAll('.mobile-nav a').forEach(a=>{
+    a.addEventListener('click', ()=>{ document.getElementById('nav-toggle').checked = false; });
+  });
+</script>
+</body>
+</html>
